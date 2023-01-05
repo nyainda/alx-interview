@@ -1,21 +1,32 @@
 
-#!/usr/bin/env python3
+#!/usr/bin/python3
+"""
+Task 0: Lockboxes
+"""
+
 
 def canUnlockAll(boxes):
-    # Set up a set to keep track of which boxes are open
-    open_boxes = {0}
+    """
+    Determines if all boxes can be opened
+    """
+    if boxes is None or len(boxes) is 0:
+        return False
 
-    # Set up a queue to hold the boxes that we need to check
-    queue = [boxes[0]]
+    status = ["T"]
 
-    # While there are boxes in the queue, check them
-    while queue:
-        box = queue.pop(0)
-        for key in box:
-            # If the key is a box that we haven't seen yet, add it to the open boxes and the queue
-            if key not in open_boxes:
-                open_boxes.add(key)
-                queue.append(boxes[key])
+    for box in range(1, len(boxes)):
+        status.append("F")
 
-    # Check if all boxes are open
-    return len(open_boxes) == len(boxes)
+    for box in range(0, len(boxes)):
+        if (status[box] is "T" or box is 0):
+            for key in boxes[box]:
+                if int(key) < len(boxes) and status[key] is "F":
+                    for k in boxes[key]:
+                        if k < len(boxes):
+                            status[k] = "T"
+                if key < len(boxes):
+                    status[key] = "T"
+
+    if "F" in status:
+        return False
+    return True
