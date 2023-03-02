@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 """
-Island Perimeter Algo
-O(n) time O(1) space
+    Module that calculates the perimeter of an island in a grid
 """
 
 
 def island_perimeter(grid):
-    """Looks up and left to subtract water"""
-    perimeter = 0
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            if grid[row][col] == 1:
-                perimeter += 4
-                if row and grid[row - 1][col] == 1:
-                    perimeter -= 2
-                if col and grid[row][col - 1] == 1:
-                    perimeter -= 2
-    return perimeter
+    """Function that calculates the perimeter of an island in a grid"""
+    result = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if grid[i][j] == 1:
+                result += 4
+                if i - 1 >= 0 and grid[i - 1][j] == 1:
+                    result -= 2
+                if j - 1 >= 0 and grid[i][j - 1] == 1:
+                    result -= 2
+
+    return result
