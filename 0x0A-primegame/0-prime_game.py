@@ -1,74 +1,94 @@
 #!/usr/bin/python3
 """
-This represents a prime game with two contestant, the first one without prime numbers loses.
+Defines function that determines the winner after a certain number of rounds
+of playing the Prime Game
 """
 
 
 def isWinner(x, nums):
-    """ 
-    Detects the winner in the Prime Game
     """
-    if x <= 0 or not nums:
+    Determines the winner after a certain number of rounds
+    of playing the Prime Game
+
+    The Prime Game is a list of consecutive ints starting from 1 up to and
+    including n. Players take turns picking prime numbers, which removes
+    that number and all multiples of that number from the set. The player that
+    has no more prime numbers to choose loses the game.
+
+    Maria and Ben are playing the game, and Maria always goes first.
+
+    parameters:
+        x [int]:
+            the number of rounds
+        nums [list of ints]:
+            list of all ns for each round
+
+    returns:
+        the name of the player that won the most rounds,
+        if both players play optimally,
+        or None, if the winner cannot be determined
+    """
+    Maria = 0
+    Ben = 0
+    if (x < 1 or x != len(nums)):
         return None
-
-    n = max(nums)
-    deck = [True for x in range(max(n + 1, 2))]
-    for i in range(2, int(pow(n, 0.5)) + 1):
-        if not deck[i]:
-            continue
-        for j in range(i*i, n + 1, i):
-            deck[j] = False
-
-    deck[0] = deck[1] = False
-    c = 0
-    for i in range(len(deck)):
-        if deck[i]:
-            c += 1
-        deck[i] = c
-
-    player1 = 0
     for n in nums:
-        player1 += deck[n] % 2 == 1
-    if player1 * 2 > len(nums):
-        return "Maria"
-    if player1 * 2 == len(nums):
+        winner = primeGame(n)
+        if winner == 1:
+            Maria += 1
+        elif winner == 2:
+            Ben += 1
+    if Maria == Ben:
         return None
-    return "Ben" n > 0:
-            # Maria picks the smallest prime number in the set
-            for i in range(2, n+1):
-                if is_prime(i):
-                    n -= i
-                    maria_moves += 1
+    elif Maria > Ben:
+        return "Maria"
+    return "Ben"
+
+
+def primeGame(n):
+    """
+    Determines the winner of a single round of the Prime Game
+
+    parameters:
+        n [int]:
+            the maximum number of the set of consecutive ints
+                from 1 up to and including n
+
+    returns:
+        1 if the first player wins the game
+        2 if the second player wins the game
+    """
+    if (n < 1):
+        return None
+    if (n == 1):
+        return (2)
+    numbers = list(range(n + 1))
+    player = 1
+    prime = 2
+    primes_used = []
+    for num in numbers:
+        if (num % prime == 0):
+            numbers.remove(num)
+    primes_used.append(prime)
+    prime = 3
+    while (numbers != [1]):
+        if (player == 1):
+            player = 2
+        else:
+            player = 1
+        for num in numbers:
+            if (num % prime == 0):
+                numbers.remove(num)
+        primes_used.append(prime)
+        prime += 2
+        flag = 1
+        while (flag):
+            for num in primes_used:
+                if (prime % num == 0):
+                    prime += 2
                     break
             else:
-                # If no primes left, Ben wins
-                return 'Ben'
-            
-            # Ben picks the largest prime number in the remaining set
-            for i in range(n, 1, -1):
-                if is_prime(i):
-                    n -= i
-                    break
-        
-        # If no numbers left, Maria wins
-        return 'Maria'
-
-    # Play each round and determine the winner
-    maria_wins = 0
-    ben_wins = 0
-    for n in nums:
-        winner = round_winner(n)
-        if winner == 'Maria':
-            maria_wins += 1
-        elif winner == 'Ben':
-            ben_wins += 1
-    
-    # Determine overall winner
-    if maria_wins > ben_wins:
-        return 'Maria'
-    elif ben_wins > maria_wins:
-        return 'Ben'
-    else:
-        return None
-
-rn None
+                flag = 0
+    if (player == 1):
+        return 1
+    return 2
