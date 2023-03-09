@@ -1,31 +1,39 @@
 #!/usr/bin/python3
+"""
+This represents a prime game with two contestant, the first one without prime numbers loses.
+"""
+
 
 def isWinner(x, nums):
+    """ 
+    Detects the winner in the Prime Game
     """
-    Determines the winner of a game of prime numbers.
+    if x <= 0 or not nums:
+        return None
 
-    Args:
-        x (int): The number of rounds to play.
-        nums (list): A list of integers representing the end of the set
-            of consecutive integers for each round.
+    n = max(nums)
+    deck = [True for x in range(max(n + 1, 2))]
+    for i in range(2, int(pow(n, 0.5)) + 1):
+        if not deck[i]:
+            continue
+        for j in range(i*i, n + 1, i):
+            deck[j] = False
 
-    Returns:
-        str: The name of the player that won the most rounds. If the
-            winner cannot be determined, returns None.
-    """
-    def is_prime(n):
-        """Returns True if n is prime, False otherwise."""
-        if n < 2:
-            return False
-        for i in range(2, int(n ** 0.5) + 1):
-            if n % i == 0:
-                return False
-        return True
+    deck[0] = deck[1] = False
+    c = 0
+    for i in range(len(deck)):
+        if deck[i]:
+            c += 1
+        deck[i] = c
 
-    def round_winner(n):
-        """Helper function for determining the winner of a round."""
-        maria_moves = 0
-        while n > 0:
+    player1 = 0
+    for n in nums:
+        player1 += deck[n] % 2 == 1
+    if player1 * 2 > len(nums):
+        return "Maria"
+    if player1 * 2 == len(nums):
+        return None
+    return "Ben" n > 0:
             # Maria picks the smallest prime number in the set
             for i in range(2, n+1):
                 if is_prime(i):
@@ -62,3 +70,5 @@ def isWinner(x, nums):
         return 'Ben'
     else:
         return None
+
+rn None
