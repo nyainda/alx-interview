@@ -22,8 +22,8 @@ def isWinner(x, nums):
                 return False
         return True
 
-    # Helper function for determining the winner of a round
     def round_winner(n):
+        """Helper function for determining the winner of a round."""
         maria_moves = 0
         while n > 0:
             # Maria picks the smallest prime number in the set
